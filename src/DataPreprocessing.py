@@ -15,15 +15,23 @@ normal_images = []
 resized_images = []
 labels = []
 
-def extract_covid_images():
-    FILE_PATH = "../Datasets/covid-chestxray-dataset-master/metadata.csv"
-    IMAGE_PATH = "../Datasets/covid-chestxray-dataset-master/images"
+# Path Variables for Covid Data
+FILE_PATH = "../Datasets/covid-chestxray-dataset-master/metadata.csv"
+IMAGE_PATH = "../Datasets/covid-chestxray-dataset-master/images"
+TARGET_COVID_DIR = "../Datasets/Covid19"
+
+# Path Variables for non-covid data
+KAGGLE_FILE_PATH = "../Datasets/Chest Xray Kaggle/train/NORMAL"
+TARGET_NORMAL_DIR = "../Datasets/Normal"
+
+# Path to main dir
+main_path = "../Datasets/"
+
+def extract_covid_images(FILE_PATH, IMAGE_PATH, TARGET_COVID_DIR):
 
     df = pd.read_csv(FILE_PATH)
     print(df.shape)
     df.head(30)
-
-    TARGET_COVID_DIR = "../Datasets/Covid19"
 
     if not os.path.exists(TARGET_COVID_DIR):
         os.mkdir(TARGET_COVID_DIR)
@@ -43,9 +51,7 @@ def extract_covid_images():
 
     print(covid_positive)
 
-def extract_normal_images():
-    KAGGLE_FILE_PATH = "../Datasets/Chest Xray Kaggle/train/NORMAL"
-    TARGET_NORMAL_DIR = "../Datasets/Normal"
+def extract_normal_images(KAGGLE_FILE_PATH, TARGET_NORMAL_DIR):
 
     if not os.path.exists(TARGET_NORMAL_DIR):
         os.mkdir(TARGET_NORMAL_DIR)
@@ -65,9 +71,7 @@ def extract_normal_images():
         print("copying image", i)
 
 # Steps for Data PreProcessing begins....
-def cnvt_img2arr():
-    covid_dir = "../Datasets/Covid19"
-    normal_dir = "../Datasets/Normal"
+def cnvt_img2arr(covid_dir, normal_dir):
 
     for filename in os.listdir(covid_dir):
         img = cv2.imread(os.path.join(covid_dir, filename))
@@ -101,8 +105,8 @@ def cnvt_img2RGB():
 
     print(labels)
 
-def plot_xray_images(i):
-    main_path = "../Datasets/"
+def plot_xray_images(main_path, i):
+
     covid_img = os.listdir(main_path+"Covid19")
     nrml_img = os.listdir(main_path+"Normal")
 
@@ -126,18 +130,19 @@ def train_test_split():
 
 
 def data_pre_processing():
+
     print("Step 1: Coverting Images to Array...")
-    cnvt_img2arr()
+    cnvt_img2arr(TARGET_COVID_DIR, TARGET_NORMAL_DIR)
     print("Step 2: Converting Images to RGB, Resizing the images and Label Creation")
     cnvt_img2RGB()
     print("Step 3: Visulaization - Plotting X-Ray Images ")
     for i in range(0,5):
-        plot_xray_images(i)
+        plot_xray_images(main_path, i)
     print("Step 4: Splitting into train and test")
     train_test_split()
 
-extract_covid_images()
-extract_normal_images()
+extract_covid_images(FILE_PATH, IMAGE_PATH, TARGET_COVID_DIR)
+extract_normal_images(KAGGLE_FILE_PATH, TARGET_NORMAL_DIR)
 data_pre_processing()
 
 
