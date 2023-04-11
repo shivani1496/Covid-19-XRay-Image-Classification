@@ -121,14 +121,6 @@ def plot_xray_images(main_path, i):
     plt.show
 
 
-def train_test_split():
-    # Converting Data to numpy arrays while scaling the pixel intensities to the range 0, 1
-    X = np.array(resized_images) / 255.0
-    y = np.array(labels)
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.80, random_state=42)
-
-
 def data_pre_processing():
 
     print("Step 1: Coverting Images to Array...")
@@ -138,8 +130,7 @@ def data_pre_processing():
     print("Step 3: Visulaization - Plotting X-Ray Images ")
     for i in range(0,5):
         plot_xray_images(main_path, i)
-    print("Step 4: Splitting into train and test")
-    train_test_split()
+
 
 extract_covid_images(FILE_PATH, IMAGE_PATH, TARGET_COVID_DIR)
 extract_normal_images(KAGGLE_FILE_PATH, TARGET_NORMAL_DIR)

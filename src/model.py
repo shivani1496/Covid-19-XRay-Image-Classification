@@ -1,5 +1,3 @@
-# Importing required libraries
-
 import pandas as pd
 import os
 import shutil
@@ -11,6 +9,7 @@ import skimage
 from skimage.transform import resize
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
+from tensorflow import keras
 import os
 import cv2
 import glob
@@ -27,9 +26,9 @@ from torch.nn import functional as F
 from torchvision import datasets, models, transforms
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from src.DataPreprocessing import resized_images, labels
 
 # Model_1 (Simple Sequential Model)
-
 def model_Sequential():
   X = np.array(resized_images) / 255.0
   y = np.array(labels)
@@ -89,10 +88,10 @@ def trained_model():
     # Next, we use those transforms that we created and apply them to our data, storing it in a new file location.
 
     data_images = {
-        'train': datasets.ImageFolder('/content/Covid-19-XRay-Image-Classification/Datasets/Chest Xray Kaggle/train',
+        'train': datasets.ImageFolder('../Datasets/Chest Xray Kaggle/train',
                                       data_transforms['train']),
         'validation': datasets.ImageFolder(
-            '/content/Covid-19-XRay-Image-Classification/Datasets/Chest Xray Kaggle/chest_xray/test',
+            '../Datasets/Chest Xray Kaggle/chest_xray/test',
             data_transforms['validation'])
     }
     dataloaders = {
@@ -165,8 +164,3 @@ model_Sequential()
 
 # Executing the resnet_50 model.
 model = trained_model()
-
-os.mkdir('/content/Covid-19-XRay-Image-Classification/working/models')
-
-torch.save(model.state_dict(), '/content/Covid-19-XRay-Image-Classification/working/models/weights.h5') #save the model's weights
-model.load_state_dict(torch.load('/content/Covid-19-XRay-Image-Classification/working/models/weights.h5')) #load the model's weights
