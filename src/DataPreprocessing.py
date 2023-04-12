@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 import skimage
+from sklearn.model_selection import train_test_split
 
 # Global Variables
 covid_images = []
@@ -130,9 +131,37 @@ def data_pre_processing():
     for i in range(0,5):
         plot_xray_images(main_path, i)
 
+    '''
+    # Train Test Split for Covid19 and Normal Images
+    covid19_path = "../Datasets/Covid19"
+    normal_path = "../Datasets/Normal"
 
-extract_covid_images(FILE_PATH, IMAGE_PATH, TARGET_COVID_DIR)
-extract_normal_images(KAGGLE_FILE_PATH, TARGET_NORMAL_DIR)
+    # Create train and test folders if they don't exist
+    train_path = "../Datasets/Train"
+    test_path = "../Datasets/Test"
+    if not os.path.exists("../Datasets/Train"):
+        os.makedirs("../Datasets/Train")
+    if not os.path.exists("../Datasets/Test"):
+        os.makedirs("../Datasets/Test")
+
+    covid19_files = os.listdir(covid19_path)
+    normal_files = os.listdir(normal_path)
+    # Split covid19 files into train and test sets
+    covid19_train, covid19_test = train_test_split(covid19_files, test_size=0.2)
+    # Copy covid19 train  and test files to train and test folders
+    shutil.copytree(covid19_path, os.path.join(train_path, 'covid19'))
+    shutil.copytree(covid19_path, os.path.join(test_path, 'covid19'))
+
+    normal_train, normal_test = train_test_split(normal_files, test_size=0.2)
+
+    # Copy normal train and test files to train and test folders
+    shutil.copytree(normal_path, os.path.join(train_path, 'normal'))
+    shutil.copytree(normal_path, os.path.join(test_path, 'normal'))
+
+    '''
+
+#extract_covid_images(FILE_PATH, IMAGE_PATH, TARGET_COVID_DIR)
+#extract_normal_images(KAGGLE_FILE_PATH, TARGET_NORMAL_DIR)
 data_pre_processing()
 
 

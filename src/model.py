@@ -72,10 +72,10 @@ def resnet_50():
     }
 
     data_images = {
-        'train': datasets.ImageFolder('../Datasets/Chest Xray Kaggle/train',
+        'train': datasets.ImageFolder('../Datasets/Train',
                                       data_transforms['train']),
         'validation': datasets.ImageFolder(
-            '../Datasets/Chest Xray Kaggle/chest_xray/test',
+            '../Datasets/Test',
             data_transforms['validation'])
     }
     dataloaders = {
