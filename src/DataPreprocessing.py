@@ -1,3 +1,4 @@
+# Importing Libraries
 import pandas as pd
 import os
 import shutil
@@ -6,8 +7,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 import skimage
-from skimage.transform import resize
-from sklearn.model_selection import train_test_split
 
 # Global Variables
 covid_images = []
@@ -89,7 +88,7 @@ def cnvt_img2arr(covid_dir, normal_dir):
 # Converting Images to RGB, Resizing the images and Label Creation
 
 def cnvt_img2RGB():
-    img_size = 224  # used for VGG-16 CNN model
+    img_size = 224
 
     for image in covid_images:
         resized_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
